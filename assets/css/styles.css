@@ -278,7 +278,9 @@ h3 {
 }
 
 .wide-figure,
-.image-panel {
+.image-panel,
+.video-card,
+.result-table-wrap {
   margin: 0;
   border: 1px solid rgba(217, 224, 215, 0.9);
   border-radius: 8px;
@@ -331,7 +333,10 @@ figcaption {
 
 .method-grid,
 .metric-grid,
-.figure-grid {
+.figure-grid,
+.video-grid,
+.formula-grid,
+.experiment-facts {
   display: grid;
   gap: 18px;
 }
@@ -343,6 +348,7 @@ figcaption {
 
 .method-card,
 .metric-card,
+.formula-card,
 .resource-item {
   border: 1px solid rgba(217, 224, 215, 0.92);
   border-radius: 8px;
@@ -350,12 +356,14 @@ figcaption {
 }
 
 .method-card,
-.metric-card {
+.metric-card,
+.formula-card {
   padding: 22px;
 }
 
 .method-card p,
-.metric-card p {
+.metric-card p,
+.formula-card p {
   margin: 0;
   color: var(--muted);
 }
@@ -390,6 +398,60 @@ figcaption {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.formula-grid,
+.experiment-facts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 24px;
+}
+
+.formula-card span {
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.formula-card code {
+  display: block;
+  margin: 12px 0;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: #182026;
+  color: #edf5ee;
+  padding: 12px;
+  font: 0.92rem/1.45 "JetBrains Mono", monospace;
+  white-space: nowrap;
+}
+
+.experiment-facts {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.experiment-facts div {
+  border: 1px solid rgba(217, 224, 215, 0.92);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 18px;
+}
+
+.experiment-facts strong,
+.experiment-facts span {
+  display: block;
+}
+
+.experiment-facts strong {
+  color: var(--accent-strong);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.45rem;
+}
+
+.experiment-facts span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .metric-card span {
   display: inline-grid;
   place-items: center;
@@ -417,6 +479,86 @@ figcaption {
   display: block;
   margin-bottom: 8px;
   line-height: 1.25;
+}
+
+.video-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.video-card {
+  display: grid;
+  overflow: hidden;
+}
+
+.video-card video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #101417;
+}
+
+.video-copy {
+  padding: 20px;
+  background: #fff;
+}
+
+.video-copy span {
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.video-copy h3 {
+  margin-top: 8px;
+}
+
+.video-copy p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.result-table-wrap {
+  margin-top: 24px;
+  overflow-x: auto;
+  background: #fff;
+}
+
+.result-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 0.94rem;
+}
+
+.result-table th,
+.result-table td {
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.result-table th {
+  color: var(--accent-strong);
+  background: rgba(47, 111, 94, 0.08);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.result-table td:not(:first-child):not(:nth-child(2)),
+.result-table th:not(:first-child):not(:nth-child(2)) {
+  text-align: right;
+}
+
+.result-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.highlight-row {
+  background: rgba(122, 155, 69, 0.1);
 }
 
 .figure-grid {
@@ -551,7 +693,10 @@ figcaption {
 
   .method-grid,
   .metric-grid,
-  .figure-grid {
+  .figure-grid,
+  .video-grid,
+  .formula-grid,
+  .experiment-facts {
     grid-template-columns: 1fr;
   }
 

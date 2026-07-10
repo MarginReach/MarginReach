@@ -3,34 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MarginPick: Margin-Aware Residual Reinforcement Learning for Fruit Picking in Deformable Canopies">
-  <meta property="og:title" content="MarginPick">
-  <meta property="og:description" content="Margin-aware residual reinforcement learning for safe fruit picking in deformable canopies.">
+  <meta name="description" content="MarginReach: Margin-Aware Residual Reinforcement Learning for Pre-Harvest Reaching in Deformable Fruit Canopies">
+  <meta property="og:title" content="MarginReach">
+  <meta property="og:description" content="Margin-aware residual reinforcement learning for safe pre-harvest reaching in deformable fruit canopies.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/images/background.png">
-  <title>MarginPick | Margin-Aware Residual RL for Fruit Picking</title>
+  <title>MarginReach | Margin-Aware Residual RL for Pre-Harvest Reaching</title>
   <link rel="icon" type="image/png" href="assets/images/apple.png">
   <link rel="apple-touch-icon" href="assets/images/apple.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <header class="site-header" id="top">
     <nav class="nav-shell" aria-label="Primary navigation">
-      <a class="brand" href="#top" aria-label="MarginPick home">
+      <a class="brand" href="#top" aria-label="MarginReach home">
         <span class="brand-mark">M</span>
-        <span>MarginPick</span>
+        <span>MarginReach</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
       <div class="nav-links" id="nav-links">
         <a href="#abstract">Abstract</a>
+        <a href="#contributions">Contributions</a>
         <a href="#method">Method</a>
+        <a href="#videos">Videos</a>
         <a href="#results">Results</a>
+        <a href="#ablations">Ablations</a>
         <a href="#resources">Resources</a>
-        <!-- Citation is hidden while the manuscript is under review. -->
-        <!-- <a href="#citation">Citation</a> -->
       </div>
     </nav>
   </header>
@@ -41,19 +42,19 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">IEEE Robotics and Automation Letters submission</p>
-          <h1>Margin-Aware Residual Reinforcement Learning for Fruit Picking in Deformable Canopies</h1>
+          <h1>Margin-Aware Residual Reinforcement Learning for Pre-Harvest Reaching in Deformable Fruit Canopies</h1>
           <p class="lead">
-            MarginPick learns safe pre-harvest reaching by combining a behavior-cloned nominal policy with residual reinforcement learning guided by normalized robot-contact and branch-deflection utilization.
+            MarginReach learns contact-rich pre-harvest reaching by combining a behavior-cloned IK prior with residual PPO guided by normalized contact-force and branch-deflection utilization.
           </p>
           <div class="button-row" aria-label="Project links">
-            <a class="button primary" href="assets/paper/marginpick-paper.pdf">Paper</a>
-            <a class="button" href="#method">Explore Method</a>
-            <a class="button ghost" href="#resources">Code</a>
+            <a class="button primary" href="assets/paper/marginreach-paper.pdf">Paper</a>
+            <a class="button" href="#videos">Videos</a>
+            <a class="button ghost" href="#results">Results</a>
           </div>
           <div class="status-strip" role="list" aria-label="Project highlights">
-            <div role="listitem"><strong>Task</strong><span>Contact-rich fruit reaching</span></div>
+            <div role="listitem"><strong>Task</strong><span>Pre-harvest reaching</span></div>
             <div role="listitem"><strong>Robot</strong><span>Flexiv Rizon / Isaac Lab</span></div>
-            <div role="listitem"><strong>Signal</strong><span>Force + branch utilization</span></div>
+            <div role="listitem"><strong>Safety Signal</strong><span>Force + branch utilization</span></div>
           </div>
         </div>
       </div>
@@ -63,91 +64,239 @@
       <div class="container two-col">
         <div>
           <p class="section-kicker">Abstract</p>
-          <h2>Learning to use branch compliance without exceeding safety margins.</h2>
+          <h2>Using compliant branches without letting contact become overload.</h2>
         </div>
         <div class="prose-card">
           <p>
-            Robotic fruit harvesting in dense, deformable canopies requires contact-rich motion through compliant vegetation. Treating every branch as an obstacle is overly conservative, while optimizing only reaching success can make policies push through vegetation with excessive contact force or branch deflection.
+            Dense fruit canopies rarely admit a strictly collision-free approach path. Treating every branch as a rigid obstacle is overly conservative, but optimizing only reaching success can drive policies to push through vegetation with excessive contact force or branch deflection.
           </p>
           <p>
-            MarginPick converts contact force and branch deflection into normalized utilization signals, then uses them to guide a residual reinforcement learning policy on top of a behavior-cloned reaching prior. The goal is to keep mild branch interaction productive while discouraging unsafe robot-contact and plant-damage margins before critical limits are reached.
+            MarginReach makes this trade-off explicit. It maps arm-link contact forces and branch-joint deflections to normalized utilization signals, then uses those signals to train a residual Cartesian policy on top of a behavior-cloned reaching prior. The result is a controller that can exploit mild branch compliance while reducing contact-force and branch-deflection overloads.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="section-pad muted" id="method">
+    <section class="section-pad muted" id="contributions">
+      <div class="container">
+        <div class="section-heading centered">
+          <p class="section-kicker">Contributions</p>
+          <h2>From binary collision avoidance to margin-regulated canopy interaction.</h2>
+          <p>The current manuscript frames pre-harvest reaching as regulated physical interaction with deformable branches, not as strict obstacle avoidance.</p>
+        </div>
+        <div class="method-grid">
+          <article class="method-card">
+            <span class="card-index">C1</span>
+            <h3>Normalized utilization interface</h3>
+            <p>Manipulator contact forces and branch-joint deflections are converted into continuous proximity-to-limit indicators for robot-contact and plant-damage risk.</p>
+          </article>
+          <article class="method-card">
+            <span class="card-index">C2</span>
+            <h3>Margin-aware residual policy</h3>
+            <p>A behavior-cloned IK prior supplies nominal reaching motion, while PPO learns reactive Cartesian corrections conditioned on contact utilization.</p>
+          </article>
+          <article class="method-card">
+            <span class="card-index">C3</span>
+            <h3>Simulation and hardware protocol</h3>
+            <p>Held-out procedural canopies and 30 real-robot trials evaluate success, safe success, contact overload, and branch overload separately.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="method">
       <div class="container">
         <div class="section-heading centered">
           <p class="section-kicker">Method</p>
-          <h2>A compact margin interface for contact-rich canopy manipulation.</h2>
-          <p>MarginPick treats physical interaction as a finite budget rather than a binary collision label.</p>
+          <h2>Margin utilization turns physical interaction into a graded learning signal.</h2>
+          <p>Instead of treating contact as a binary collision, MarginReach measures how close robot links and branches are to their admissible limits.</p>
         </div>
         <figure class="wide-figure overview-figure">
-          <img src="assets/images/env.png" alt="Procedural canopy generation and Isaac Lab fruit-picking scene">
-          <figcaption>Procedural scene synthesis, training environment, safety-margin monitoring, and reinforcement-learning interface.</figcaption>
+          <img src="assets/images/env.png" alt="Procedural canopy synthesis and Isaac Lab pre-harvest reaching scene">
+          <figcaption>Procedural canopy synthesis and training environment: randomized fruit trees, obstacle trees, branch dynamics, and an Isaac Lab reaching scene.</figcaption>
         </figure>
         <div class="method-grid">
           <article class="method-card">
             <span class="card-index">01</span>
-            <h3>Procedural deformable canopies</h3>
-            <p>L-system trees are converted to articulated branch assets with spring-actuated joints, randomized fruit placement, and obstacle-tree clutter.</p>
+            <h3>Compliant procedural canopy</h3>
+            <p>L-system tree assets are converted into articulated branch structures with spring-actuated joints, fruit targets, and randomized obstacle-tree clutter.</p>
           </article>
           <article class="method-card">
             <span class="card-index">02</span>
-            <h3>Normalized utilization</h3>
-            <p>Link contact forces and branch-joint deflections are mapped to continuous utilization variables, exposing how close each interaction is to its safety limit.</p>
+            <h3>Force and deflection utilization</h3>
+            <p>Contact forces and branch deflections are normalized into link-wise and joint-wise proximity-to-limit indicators for reward, termination, and evaluation.</p>
           </article>
           <article class="method-card">
             <span class="card-index">03</span>
-            <h3>Residual policy refinement</h3>
-            <p>A behavior-cloned IK prior supplies smooth nominal Cartesian motion, while PPO learns local residual corrections that react to contact and branch-risk signals.</p>
+            <h3>Prior-guided residual PPO</h3>
+            <p>A frozen BC/IK reaching prior provides smooth nominal motion, while PPO learns local Cartesian residuals that react to canopy interaction severity.</p>
           </article>
         </div>
         <figure class="wide-figure">
-          <img src="assets/images/RL.png" alt="Control and reward structure of MarginPick">
-          <figcaption>Frozen BC/IK prior plus margin-aware residual PPO for safe pre-harvest reaching.</figcaption>
+          <img src="assets/images/RL.png" alt="Control and reward structure of MarginReach">
+          <figcaption>Control and reward structure: a BC/IK prior supplies nominal Cartesian actions, and residual PPO optimizes reaching under contact and branch-utilization penalties.</figcaption>
         </figure>
+        <div class="formula-grid" aria-label="Margin utilization equations">
+          <article class="formula-card">
+            <span>Contact utilization</span>
+            <code>uᶜᵢ = min(Fᵢ / Fᶜʳⁱᵗᵢ, 1)</code>
+            <p>Link-wise force readings become normalized contact-risk signals before hard overloads occur.</p>
+          </article>
+          <article class="formula-card">
+            <span>Branch utilization</span>
+            <code>uᵇⱼ = min(|qⱼ − qʳᵉᶠⱼ| / qˡⁱᵐⱼ, 1)</code>
+            <p>Branch deflection is measured relative to the settled resting angle and bending-limit threshold.</p>
+          </article>
+          <article class="formula-card">
+            <span>Residual action</span>
+            <code>aₜ = πBC(oₜ) + Δπθ(oₜ)</code>
+            <p>The residual controller starts near the imitation prior and learns local contact-aware corrections.</p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section-pad" id="results">
+    <section class="section-pad" id="videos">
       <div class="container">
         <div class="section-heading">
-          <p class="section-kicker">Evaluation</p>
-          <h2>Designed to report safe success, not just reaching success.</h2>
-          <p class="note">Final quantitative tables can be added here after the review-anonymized measurements are frozen.</p>
+          <p class="section-kicker">Videos</p>
+          <h2>Simulation and real-robot evaluations.</h2>
+          <p>These clips show MarginReach navigating branch clutter toward the pre-harvest target in Isaac Lab and on the physical Flexiv Rizon setup.</p>
+        </div>
+        <div class="video-grid">
+          <article class="video-card">
+            <video controls preload="metadata" playsinline>
+              <source src="video/simulation_experiment.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-copy">
+              <span>Simulation</span>
+              <h3>Isaac Lab pre-harvest reaching</h3>
+              <p>Vectorized randomized canopy scenes with branch interference, contact-force utilization, and branch-deflection utilization.</p>
+            </div>
+          </article>
+          <article class="video-card">
+            <video controls preload="metadata" playsinline>
+              <source src="video/real_experiment.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-copy">
+              <span>Real Robot</span>
+              <h3>Flexiv Rizon branch-clutter validation</h3>
+              <p>Physical trials with red fruit proxies on the target tree and an independently placed obstacle tree along the approach corridor.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad muted" id="results">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Results</p>
+          <h2>MarginReach improves safe success in simulation and hardware.</h2>
+          <p>Evaluation separates nominal task completion from mechanically safe completion using SR, SSR, contact-overload rate, and branch-overload rate.</p>
         </div>
         <div class="metric-grid" aria-label="Evaluation metrics">
           <article class="metric-card">
             <span>SR</span>
             <strong>Success Rate</strong>
-            <p>Reaches the pre-harvest standoff pose with the required approach orientation.</p>
+            <p>End-effector reaches the pre-harvest band with the required approach orientation.</p>
           </article>
           <article class="metric-card positive">
             <span>SSR</span>
             <strong>Safe Success Rate</strong>
-            <p>Satisfies success while keeping contact forces and branch deflections within prescribed limits.</p>
+            <p>Success while all robot-link contact forces and branch deflections stay within limits.</p>
           </article>
           <article class="metric-card caution">
             <span>COR</span>
             <strong>Contact-Overload Rate</strong>
-            <p>Counts trials where at least one arm link reaches its contact-force utilization limit.</p>
+            <p>Any monitored arm link reaches or exceeds its force-utilization limit.</p>
           </article>
           <article class="metric-card caution">
             <span>BOR</span>
             <strong>Branch-Overload Rate</strong>
-            <p>Counts trials where any target-tree or obstacle-tree branch exceeds its utilization limit.</p>
+            <p>Any fruit-tree or obstacle-tree branch exceeds its utilization limit.</p>
           </article>
+        </div>
+        <div class="experiment-facts" aria-label="Experiment setup summary">
+          <div><strong>4096</strong><span>parallel training environments</span></div>
+          <div><strong>1500</strong><span>residual PPO iterations</span></div>
+          <div><strong>30</strong><span>physical trials per method</span></div>
+          <div><strong>6-D</strong><span>Cartesian action interface</span></div>
+        </div>
+        <div class="result-table-wrap" role="region" aria-label="Benchmark comparison table" tabindex="0">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Method</th>
+                <th>SR</th>
+                <th>SSR</th>
+                <th>COR</th>
+                <th>BOR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Simulation</td>
+                <td>PCAP</td>
+                <td>73.6</td>
+                <td>54.2</td>
+                <td>14.9</td>
+                <td>33.1</td>
+              </tr>
+              <tr>
+                <td>Simulation</td>
+                <td>Fruit-Discovery RL</td>
+                <td><strong>83.4</strong></td>
+                <td>36.8</td>
+                <td>27.5</td>
+                <td>45.7</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>Simulation</td>
+                <td>MarginReach</td>
+                <td>79.3</td>
+                <td><strong>63.5</strong></td>
+                <td><strong>9.8</strong></td>
+                <td><strong>14.4</strong></td>
+              </tr>
+              <tr>
+                <td>Real</td>
+                <td>PCAP</td>
+                <td>73.3</td>
+                <td>50.0</td>
+                <td>16.7</td>
+                <td>33.3</td>
+              </tr>
+              <tr>
+                <td>Real</td>
+                <td>Fruit-Discovery RL</td>
+                <td>66.7</td>
+                <td>33.3</td>
+                <td>30.0</td>
+                <td>43.3</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>Real</td>
+                <td>MarginReach</td>
+                <td><strong>76.7</strong></td>
+                <td><strong>60.0</strong></td>
+                <td><strong>13.3</strong></td>
+                <td><strong>23.3</strong></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="figure-grid">
           <figure class="image-panel">
-            <img src="assets/images/curve.png" alt="Draft training curves for benchmark policies">
-            <figcaption>Draft training curves for success and overload rates.</figcaption>
+            <img src="assets/images/curve.png" alt="Training curves for benchmark policies">
+            <figcaption>Training curves over 1,500 PPO iterations for SR, SSR, COR, and BOR.</figcaption>
           </figure>
           <figure class="image-panel">
             <img src="assets/images/experiment_env.png" alt="Real robot validation scene with a Flexiv Rizon arm and fruit proxies">
-            <figcaption>Real-robot validation scene with branch interference.</figcaption>
+            <figcaption>Real-robot validation scene with target fruit tree and obstacle-tree clutter.</figcaption>
           </figure>
           <figure class="image-panel rollout-panel">
             <img src="assets/images/rollout.png" alt="Representative rollout sequence in simulation and real-world validation">
@@ -157,57 +306,128 @@
       </div>
     </section>
 
-    <section class="section-pad muted" id="resources">
+    <section class="section-pad" id="ablations">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Ablation Study</p>
+          <h2>Safe success depends on both the residual structure and margin penalties.</h2>
+          <p>The manuscript separates learning-framework variants from margin-utilization variants to show where the safe interaction behavior comes from.</p>
+        </div>
+        <div class="result-table-wrap" role="region" aria-label="Ablation study table" tabindex="0">
+          <table class="result-table ablation-table">
+            <thead>
+              <tr>
+                <th>Group</th>
+                <th>Variant</th>
+                <th>SR</th>
+                <th>SSR</th>
+                <th>COR</th>
+                <th>BOR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Learning</td>
+                <td>BC Prior</td>
+                <td><strong>92.4</strong></td>
+                <td>26.7</td>
+                <td>54.1</td>
+                <td>61.8</td>
+              </tr>
+              <tr>
+                <td>Learning</td>
+                <td>Vanilla PPO</td>
+                <td>79.2</td>
+                <td>39.5</td>
+                <td>43.7</td>
+                <td>52.3</td>
+              </tr>
+              <tr>
+                <td>Learning</td>
+                <td>BC-Initialized PPO</td>
+                <td>81.6</td>
+                <td>42.8</td>
+                <td>40.4</td>
+                <td>51.9</td>
+              </tr>
+              <tr>
+                <td>Margin</td>
+                <td>w/o contact observation</td>
+                <td>72.1</td>
+                <td>53.6</td>
+                <td>20.8</td>
+                <td>27.4</td>
+              </tr>
+              <tr>
+                <td>Margin</td>
+                <td>w/o contact penalty</td>
+                <td>67.9</td>
+                <td>42.2</td>
+                <td>26.5</td>
+                <td>19.7</td>
+              </tr>
+              <tr>
+                <td>Margin</td>
+                <td>w/o branch penalty</td>
+                <td>72.3</td>
+                <td>59.1</td>
+                <td>11.6</td>
+                <td>26.2</td>
+              </tr>
+              <tr>
+                <td>Margin</td>
+                <td>w/o margin penalties</td>
+                <td>86.8</td>
+                <td>31.4</td>
+                <td>46.9</td>
+                <td>53.5</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>Full</td>
+                <td>MarginReach</td>
+                <td>79.3</td>
+                <td><strong>63.5</strong></td>
+                <td><strong>9.8</strong></td>
+                <td><strong>14.4</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">The full policy intentionally trades a small amount of nominal SR for the best SSR and the lowest overload rates, matching the paper's emphasis on mechanically safe pre-harvest reaching.</p>
+      </div>
+    </section>
+
+    <section class="section-pad" id="resources">
       <div class="container resource-layout">
         <div>
           <p class="section-kicker">Resources</p>
           <h2>Project artifacts</h2>
-          <p>Use this section for camera-ready resources, code, datasets, videos, and supplementary materials as they become available.</p>
+          <p>Paper, videos, and project materials for the MarginReach pre-harvest reaching study.</p>
         </div>
         <div class="resource-list">
-          <a class="resource-item" href="assets/paper/marginpick-paper.pdf">
+          <a class="resource-item" href="assets/paper/marginreach-paper.pdf">
             <span>PDF</span>
-            <strong>Manuscript draft</strong>
-            <small>Local copy exported from paper/RAL/root.pdf</small>
+            <strong>Manuscript</strong>
+            <small>Current RAL paper draft</small>
           </a>
-          <a class="resource-item disabled" href="#" aria-disabled="true">
-            <span>Code</span>
-            <strong>Training and evaluation code</strong>
-            <small>Coming soon</small>
+          <a class="resource-item" href="video/simulation_experiment.mp4">
+            <span>SIM</span>
+            <strong>Simulation experiment video</strong>
+            <small>Isaac Lab reaching rollouts</small>
           </a>
-          <a class="resource-item disabled" href="#" aria-disabled="true">
-            <span>Video</span>
-            <strong>Supplementary video</strong>
-            <small>Coming soon</small>
+          <a class="resource-item" href="video/real_experiment.mp4">
+            <span>REAL</span>
+            <strong>Real-robot experiment video</strong>
+            <small>Flexiv Rizon validation trials</small>
           </a>
         </div>
       </div>
     </section>
-
-    <!--
-    <section class="section-pad" id="citation">
-      <div class="container two-col">
-        <div>
-          <p class="section-kicker">Citation</p>
-          <h2>BibTeX</h2>
-          <p class="note">Update author, venue, year, and links after publication or review policy permits disclosure.</p>
-        </div>
-        <pre class="bibtex"><code>@article{marginpick2026,
-  title   = {MarginPick: Margin-Aware Residual Reinforcement Learning
-             for Fruit Picking in Deformable Canopies},
-  author  = {Anonymous Authors},
-  journal = {IEEE Robotics and Automation Letters},
-  year    = {2026},
-  note    = {Manuscript under review}
-        }</code></pre>
-      </div>
-    </section>
-    -->
   </main>
 
   <footer class="site-footer">
     <div class="container footer-row">
-      <span>(c) 2026 MarginPick</span>
+      <span>(c) 2026 MarginReach</span>
       <a href="#top">Back to top</a>
     </div>
   </footer>

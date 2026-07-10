@@ -14,6 +14,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -52,24 +62,6 @@
             <a class="button ghost" href="#results">Results</a>
           </div>
         </div>
-
-        <aside class="hero-panel" aria-label="Key results">
-          <span class="panel-label">Safe reaching focus</span>
-          <div class="hero-metric">
-            <strong>63.5%</strong>
-            <span>simulation safe success rate</span>
-          </div>
-          <div class="hero-metric">
-            <strong>60.0%</strong>
-            <span>real-robot safe success rate</span>
-          </div>
-          <div class="hero-mini-grid">
-            <div><strong>9.8%</strong><span>sim COR</span></div>
-            <div><strong>14.4%</strong><span>sim BOR</span></div>
-            <div><strong>13.3%</strong><span>real COR</span></div>
-            <div><strong>23.3%</strong><span>real BOR</span></div>
-          </div>
-        </aside>
       </div>
     </section>
 
@@ -160,17 +152,23 @@
         <div class="formula-grid" aria-label="MarginReach equations">
           <article class="formula-card">
             <span>Contact utilization</span>
-            <code>u_c_i = min(F_i / F_crit_i, 1)</code>
+            <div class="formula-display">\[
+              u_{c,i}=\min\left(\frac{F_i}{F_{\mathrm{crit},i}},\,1\right)
+            \]</div>
             <p>Force readings from monitored robot links become normalized proximity-to-limit signals.</p>
           </article>
           <article class="formula-card">
             <span>Branch utilization</span>
-            <code>u_b_j = min(|q_j - q_ref_j| / q_lim_j, 1)</code>
+            <div class="formula-display">\[
+              u_{b,j}=\min\left(\frac{\lvert q_j-q_{\mathrm{ref},j}\rvert}{q_{\mathrm{lim},j}},\,1\right)
+            \]</div>
             <p>Branch deflection is measured relative to the settled passive angle and bending threshold.</p>
           </article>
           <article class="formula-card">
             <span>Residual action</span>
-            <code>a_t = pi_BC(o_t) + delta_pi_theta(o_t)</code>
+            <div class="formula-display">\[
+              a_t=\pi_{\mathrm{BC}}(o_t)+\delta\pi_{\theta}(o_t)
+            \]</div>
             <p>The learned residual starts near zero and adapts the nominal reaching command near contact.</p>
           </article>
         </div>
@@ -186,27 +184,25 @@
         </div>
         <div class="video-grid">
           <article class="video-card">
-            <video controls preload="metadata" playsinline poster="assets/images/rollout.png">
+            <video controls preload="metadata" playsinline>
               <source src="video/simulation_experiment.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
             <div class="video-copy">
               <span>Simulation experiment</span>
               <h3>Isaac Lab randomized canopy reaching</h3>
-              <p>H.264 MP4, 1280 x 720, 30 fps, 54.6 s. The clip shows reaching through randomized compliant branch interference.</p>
-              <a href="video/simulation_experiment.mp4">Open video file</a>
+              <p>The clip shows reaching through randomized compliant branch interference.</p>
             </div>
           </article>
           <article class="video-card">
-            <video controls preload="metadata" playsinline poster="assets/images/experiment_env.png">
+            <video controls preload="metadata" playsinline>
               <source src="video/real_experiment.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
             <div class="video-copy">
               <span>Real-robot experiment</span>
               <h3>Flexiv Rizon hardware validation</h3>
-              <p>H.264 MP4, 1920 x 1080, 30 fps, 106.9 s. The clip shows physical trials with target fruit proxies and an obstacle tree.</p>
-              <a href="video/real_experiment.mp4">Open video file</a>
+              <p>The clip shows physical trials with target fruit proxies and an obstacle tree.</p>
             </div>
           </article>
         </div>

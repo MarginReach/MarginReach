@@ -147,10 +147,6 @@ video {
 .hero-layout {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 42px;
-  align-items: end;
 }
 
 .hero-copy {
@@ -184,6 +180,8 @@ h1 {
   font-size: clamp(4.1rem, 9vw, 8.4rem);
   line-height: 0.86;
   letter-spacing: 0;
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 h2 {
@@ -455,16 +453,20 @@ figcaption {
   text-transform: uppercase;
 }
 
-.formula-card code {
-  display: block;
-  margin: 12px 0;
+.formula-display {
+  margin: 14px 0;
   overflow-x: auto;
+  border: 1px solid rgba(36, 91, 75, 0.12);
   border-radius: 8px;
-  background: var(--ink);
-  color: #eff7ef;
-  padding: 12px;
-  font: 0.9rem/1.45 "IBM Plex Mono", monospace;
-  white-space: nowrap;
+  background: linear-gradient(180deg, #ffffff, #f8fbf5);
+  color: var(--green-strong);
+  padding: 12px 14px;
+}
+
+.formula-display mjx-container {
+  margin: 0 !important;
+  min-width: max-content;
+  font-size: 112% !important;
 }
 
 .video-section {
